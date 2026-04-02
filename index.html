@@ -126,7 +126,7 @@ body {
 .font-btn:active { background: rgba(212,175,55,0.15); }
 
 .reader-body {
-  padding: 20px 18px 100px;
+  padding: 20px 18px 120px;
   flex: 1;
   overflow-y: auto;
 }
@@ -188,6 +188,70 @@ body {
 .translate-btn.active {
   background: rgba(212,175,55,0.2);
   border-color: #D4AF37;
+}
+
+/* ===== AUDIO PLAYER ===== */
+.audio-player {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(13,40,24,0.97);
+  border-top: 1px solid rgba(212,175,55,0.3);
+  padding: 10px 16px;
+  z-index: 20;
+  backdrop-filter: blur(10px);
+}
+.audio-player.visible { display: block; }
+.audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.play-btn {
+  background: none;
+  border: 2px solid #D4AF37;
+  color: #D4AF37;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.2em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.play-btn:active { background: rgba(212,175,55,0.2); }
+.audio-progress-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.audio-progress-bar {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+}
+.audio-progress-fill {
+  height: 100%;
+  background: #D4AF37;
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.2s;
+}
+.audio-time {
+  color: #a0b8a0;
+  font-size: 0.7em;
+  min-width: 38px;
+  text-align: center;
+  font-family: monospace;
+  direction: ltr;
 }
 
 /* Scroll progress */
@@ -331,6 +395,18 @@ body {
   </div>
   <div class="reader-body" id="readerBody">
     <div class="dua-text" id="duaText"></div>
+  </div>
+  <div class="audio-player" id="audioPlayer">
+    <div class="audio-controls">
+      <button class="play-btn" id="playBtn" onclick="toggleAudio()">&#9654;</button>
+      <div class="audio-progress-wrap">
+        <span class="audio-time" id="audioCurrentTime">0:00</span>
+        <div class="audio-progress-bar" id="audioProgressBar" onclick="seekAudio(event)">
+          <div class="audio-progress-fill" id="audioProgressFill"></div>
+        </div>
+        <span class="audio-time" id="audioDuration">0:00</span>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -721,6 +797,9 @@ function openDua(key) {
   document.getElementById('readerPage').style.display = 'flex';
   document.getElementById('progressBar').style.width = '0%';
 
+  // Init audio player
+  initAudio(key);
+
   // Apply translation state
   const btn = document.getElementById('translateBtn');
   if (showFarsi) {
@@ -755,12 +834,78 @@ function toggleTranslation() {
   }
 }
 
+// ===== AUDIO PLAYER =====
+const audioFiles = {
+  ashura: 'audio/ashura.mp3'
+};
+let audio = null;
+let isPlaying = false;
+
+function initAudio(key) {
+  const player = document.getElementById('audioPlayer');
+  if (!audioFiles[key]) {
+    player.classList.remove('visible');
+    return;
+  }
+  if (audio) { audio.pause(); audio.src = ''; }
+  audio = new Audio(audioFiles[key]);
+  isPlaying = false;
+  document.getElementById('playBtn').innerHTML = '&#9654;';
+  document.getElementById('audioProgressFill').style.width = '0%';
+  document.getElementById('audioCurrentTime').textContent = '0:00';
+  document.getElementById('audioDuration').textContent = '0:00';
+  player.classList.add('visible');
+
+  audio.addEventListener('loadedmetadata', () => {
+    document.getElementById('audioDuration').textContent = formatTime(audio.duration);
+  });
+  audio.addEventListener('timeupdate', () => {
+    if (!audio.duration) return;
+    const pct = (audio.currentTime / audio.duration) * 100;
+    document.getElementById('audioProgressFill').style.width = pct + '%';
+    document.getElementById('audioCurrentTime').textContent = formatTime(audio.currentTime);
+  });
+  audio.addEventListener('ended', () => {
+    isPlaying = false;
+    document.getElementById('playBtn').innerHTML = '&#9654;';
+  });
+}
+
+function toggleAudio() {
+  if (!audio) return;
+  if (isPlaying) {
+    audio.pause();
+    document.getElementById('playBtn').innerHTML = '&#9654;';
+  } else {
+    audio.play();
+    document.getElementById('playBtn').innerHTML = '&#10074;&#10074;';
+  }
+  isPlaying = !isPlaying;
+}
+
+function seekAudio(e) {
+  if (!audio || !audio.duration) return;
+  const bar = document.getElementById('audioProgressBar');
+  const rect = bar.getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  audio.currentTime = pct * audio.duration;
+}
+
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return m + ':' + (sec < 10 ? '0' : '') + sec;
+}
+
 function goBack() {
   // Save scroll position
   if (currentDua) {
     const body = document.getElementById('readerBody');
     localStorage.setItem('scroll-' + currentDua, body.scrollTop);
   }
+  // Stop audio
+  if (audio) { audio.pause(); isPlaying = false; }
+  document.getElementById('audioPlayer').classList.remove('visible');
   document.getElementById('menuPage').style.display = 'flex';
   document.getElementById('readerPage').style.display = 'none';
   document.getElementById('progressBar').style.width = '0%';
