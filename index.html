@@ -224,6 +224,20 @@ body {
   flex-shrink: 0;
 }
 .play-btn:active { background: rgba(212,175,55,0.2); }
+.speed-btn {
+  background: none;
+  border: 1px solid rgba(212,175,55,0.4);
+  color: #D4AF37;
+  min-width: 42px;
+  height: 30px;
+  padding: 0 8px;
+  border-radius: 8px;
+  font-size: 0.8em;
+  cursor: pointer;
+  font-family: inherit;
+  flex-shrink: 0;
+}
+.speed-btn:active { background: rgba(212,175,55,0.2); }
 .audio-progress-wrap {
   flex: 1;
   display: flex;
@@ -342,6 +356,7 @@ body {
         </div>
         <span class="audio-time" id="audioDuration">0:00</span>
       </div>
+      <button class="speed-btn" id="speedBtn" onclick="cycleSpeed()">1x</button>
     </div>
   </div>
 </div>
@@ -823,6 +838,9 @@ const audioFiles = {
 };
 let audio = null;
 let isPlaying = false;
+const SPEEDS = [1, 1.25, 1.5, 1.75];
+let playbackSpeed = parseFloat(localStorage.getItem('dua-speed') || '1');
+if (!SPEEDS.includes(playbackSpeed)) playbackSpeed = 1;
 
 function initAudio(key) {
   const player = document.getElementById('audioPlayer');
@@ -832,11 +850,13 @@ function initAudio(key) {
   }
   if (audio) { audio.pause(); audio.src = ''; }
   audio = new Audio(audioFiles[key]);
+  audio.playbackRate = playbackSpeed;
   isPlaying = false;
   document.getElementById('playBtn').innerHTML = '&#9654;';
   document.getElementById('audioProgressFill').style.width = '0%';
   document.getElementById('audioCurrentTime').textContent = '0:00';
   document.getElementById('audioDuration').textContent = '0:00';
+  updateSpeedLabel();
   player.classList.add('visible');
 
   audio.addEventListener('loadedmetadata', () => {
@@ -872,6 +892,19 @@ function seekAudio(e) {
   const rect = bar.getBoundingClientRect();
   const pct = (e.clientX - rect.left) / rect.width;
   audio.currentTime = pct * audio.duration;
+}
+
+function cycleSpeed() {
+  const i = SPEEDS.indexOf(playbackSpeed);
+  playbackSpeed = SPEEDS[(i + 1) % SPEEDS.length];
+  localStorage.setItem('dua-speed', playbackSpeed);
+  if (audio) audio.playbackRate = playbackSpeed;
+  updateSpeedLabel();
+}
+
+function updateSpeedLabel() {
+  const btn = document.getElementById('speedBtn');
+  if (btn) btn.textContent = playbackSpeed + 'x';
 }
 
 function formatTime(s) {
