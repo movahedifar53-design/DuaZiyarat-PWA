@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dua-ziyarat-v9';
+const CACHE_NAME = 'dua-ziyarat-v10';
 const ASSETS = [
   './',
   './index.html',
