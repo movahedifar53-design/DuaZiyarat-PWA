@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dua-ziyarat-v5';
+const CACHE_NAME = 'dua-ziyarat-v6';
 const ASSETS = [
   './',
   './index.html',
@@ -29,16 +29,3 @@ self.addEventListener('fetch', e => {
   );
 });
 
-// Daily reminder notification
-self.addEventListener('notificationclick', e => {
-  e.notification.close();
-  e.waitUntil(clients.openWindow('./'));
-});
-
-self.addEventListener('message', e => {
-  if (e.data && e.data.type === 'SCHEDULE_REMINDER') {
-    // Store reminder time
-    self.reminderHour = e.data.hour;
-    self.reminderMinute = e.data.minute;
-  }
-});

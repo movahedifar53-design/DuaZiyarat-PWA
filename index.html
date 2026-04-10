@@ -266,63 +266,6 @@ body {
   width: 0%;
 }
 
-/* ===== REMINDER SETTINGS ===== */
-.reminder-section {
-  width: 100%;
-  max-width: 400px;
-  margin-top: 24px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(212,175,55,0.2);
-  border-radius: 14px;
-  padding: 18px 20px;
-}
-.reminder-title {
-  color: #D4AF37;
-  font-size: 1.1em;
-  margin-bottom: 12px;
-  text-align: center;
-}
-.reminder-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-.reminder-row label {
-  color: #a0b8a0;
-  font-size: 0.9em;
-}
-.reminder-time {
-  background: rgba(13,40,24,0.8);
-  border: 1px solid rgba(212,175,55,0.4);
-  color: #D4AF37;
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 1em;
-  font-family: inherit;
-  text-align: center;
-}
-.reminder-btn {
-  background: rgba(212,175,55,0.15);
-  border: 1px solid #D4AF37;
-  color: #D4AF37;
-  padding: 8px 20px;
-  border-radius: 8px;
-  font-size: 1em;
-  cursor: pointer;
-  font-family: inherit;
-  display: block;
-  margin: 0 auto;
-}
-.reminder-btn:active { background: rgba(212,175,55,0.3); }
-.reminder-status {
-  color: #a0b8a0;
-  font-size: 0.8em;
-  text-align: center;
-  margin-top: 8px;
-}
-
 /* Install hint */
 .install-hint {
   color: #a0b8a0;
@@ -363,24 +306,13 @@ body {
       <div class="menu-card-desc"></div>
     </div>
     <div class="menu-card" onclick="openDua('isteghasa')">
-      <div class="menu-card-title">استغاثه به امام عصر</div>
+      <div class="menu-card-title">استغاثه</div>
       <div class="menu-card-desc"></div>
     </div>
     <div class="menu-card" onclick="openDua('aleyasin')">
       <div class="menu-card-title">دعاء آل يس</div>
       <div class="menu-card-desc"></div>
     </div>
-  </div>
-
-  <!-- Reminder Section -->
-  <div class="reminder-section">
-    <div class="reminder-title">تذكير يومي</div>
-    <div class="reminder-row">
-      <label>زمان:</label>
-      <input type="time" id="reminderTime" class="reminder-time" value="06:00">
-    </div>
-    <button class="reminder-btn" onclick="setupReminder()">تنظیم یادآور</button>
-    <div class="reminder-status" id="reminderStatus"></div>
   </div>
 
   <div class="install-hint">برای تجربه بهتر به صفحه اصلی اضافه کنید</div>
@@ -543,7 +475,7 @@ const duas = {
   },
 
   isteghasa: {
-    title: 'استغاثه به امام عصر',
+    title: 'استغاثه',
     text: `سَلاَمُ اللَّهِ الْكَامِلُ التَّامُّ الشَّامِلُ الْعَامُّ وَصَلَوَاتُهُ الدَّائِمَةُ وَبَرَكَاتُهُ الْقَائِمَةُ التَّامَّةُ عَلَى حُجَّةِ اللَّهِ وَوَلِيِّهِ فِي أَرْضِهِ وَبِلَادِهِ وَخَلِيفَتِهِ عَلَى خَلْقِهِ وَعِبَادِهِ وَسُلَالَةِ النُّبُوَّةِ وَبَقِيَّةِ الْعِتْرَةِ وَالصَّفْوَةِ صَاحِبِ الزَّمَانِ وَمُظْهِرِ الإِيمَانِ وَمُلَقِّنِ أَحْكَامِ الْقُرْآنِ وَمُطَهِّرِ الأَرْضِ وَنَاشِرِ الْعَدْلِ فِي الطُّولِ وَالْعَرْضِ وَالْحُجَّةِ الْقَائِمِ الْمَهْدِيِّ الإِمَامِ الْمُنْتَظَرِ الْمَرْضِيِّ وَابْنِ الأَئِمَّةِ الطَّاهِرِينَ الْوَصِيِّ ابْنِ الأَوْصِيَاءِ الْمَرْضِيِّينَ الْهَادِي الْمَعْصُومِ ابْنِ الأَئِمَّةِ الْهُدَاةِ الْمَعْصُومِينَ.
 
 السَّلَامُ عَلَيْكَ يَا مُعِزَّ الْمُؤْمِنِينَ الْمُسْتَضْعَفِينَ.
@@ -972,52 +904,6 @@ document.getElementById('readerBody').addEventListener('scroll', function() {
   const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
   document.getElementById('progressBar').style.width = Math.min(100, pct) + '%';
 });
-
-// ===== DAILY REMINDER =====
-let reminderInterval = null;
-
-function setupReminder() {
-  const status = document.getElementById('reminderStatus');
-  if (!('Notification' in window)) {
-    status.textContent = 'اعلان‌ها در این مرورگر پشتیبانی نمی‌شود';
-    return;
-  }
-  Notification.requestPermission().then(perm => {
-    if (perm !== 'granted') {
-      status.textContent = 'اجازه اعلان رد شد';
-      return;
-    }
-    const time = document.getElementById('reminderTime').value;
-    localStorage.setItem('dua-reminder', time);
-    status.textContent = 'یادآور روزانه ساعت ' + time + ' تنظیم شد';
-    scheduleReminder(time);
-  });
-}
-
-function scheduleReminder(time) {
-  if (reminderInterval) clearInterval(reminderInterval);
-  const [h, m] = time.split(':').map(Number);
-  reminderInterval = setInterval(() => {
-    const now = new Date();
-    if (now.getHours() === h && now.getMinutes() === m && now.getSeconds() < 30) {
-      new Notification('دعاء و زيارت', {
-        body: 'وقت دعا و زیارت روزانه شماست',
-        icon: 'icon-192.png',
-        tag: 'daily-reminder'
-      });
-    }
-  }, 15000);
-}
-
-// Restore reminder on load
-const savedReminder = localStorage.getItem('dua-reminder');
-if (savedReminder) {
-  document.getElementById('reminderTime').value = savedReminder;
-  document.getElementById('reminderStatus').textContent = 'یادآور فعال: ' + savedReminder;
-  if (Notification.permission === 'granted') {
-    scheduleReminder(savedReminder);
-  }
-}
 
 // ===== BACK BUTTON (browser) =====
 window.addEventListener('popstate', () => {
