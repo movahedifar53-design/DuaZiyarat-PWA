@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dua-ziyarat-v8';
+const CACHE_NAME = 'dua-ziyarat-v9';
 const ASSETS = [
   './',
   './index.html',
@@ -8,7 +8,8 @@ const ASSETS = [
   './audio/ashura.mp3',
   './audio/ameenallah.mp3',
   './audio/kisa.mp3',
-  './audio/aleyasin.mp3'
+  './audio/aleyasin.mp3',
+  './audio/isteghasa.mp3'
 ];
 
 self.addEventListener('install', e => {
