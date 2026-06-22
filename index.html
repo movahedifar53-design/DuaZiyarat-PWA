@@ -1046,7 +1046,18 @@ document.querySelectorAll('.menu-card').forEach(card => {
 
 // ===== SERVICE WORKER =====
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
+  navigator.serviceWorker.register('sw.js').then(reg => {
+    // Check for an updated worker each time the app is opened.
+    reg.update();
+  });
+  // When a new worker takes control, reload once so fresh content shows
+  // without the user having to force-quit and reopen the app.
+  let reloading = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (reloading) return;
+    reloading = true;
+    window.location.reload();
+  });
 }
 </script>
 </body>
