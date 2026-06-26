@@ -3,8 +3,8 @@
   "short_name": "Dua",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#0D2818",
-  "theme_color": "#0D2818",
+  "background_color": "#08080A",
+  "theme_color": "#08080A",
   "orientation": "portrait",
   "icons": [
     {
