@@ -5,18 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#08080A">
+<meta name="theme-color" content="#0D2818">
 <title>دعاء و زيارت</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@600;700&family=Vazirmatn:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
   font-family: 'Traditional Arabic', 'Scheherazade', 'Amiri', serif;
-  background: #08080A;
+  background: #0D2818;
   color: #FFFFFF;
   min-height: 100vh;
   -webkit-user-select: none; user-select: none;
@@ -31,13 +28,13 @@ body {
   min-height: 100vh;
 }
 .menu-title {
-  color: #E63946;
+  color: #D4AF37;
   font-size: 2.2em;
   margin-bottom: 8px;
   text-align: center;
 }
 .menu-subtitle {
-  color: #A8A29B;
+  color: #a0b8a0;
   font-size: 1em;
   margin-bottom: 30px;
   text-align: center;
@@ -51,7 +48,7 @@ body {
 }
 .menu-card {
   background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(230,57,70,0.2);
+  border: 1px solid rgba(212,175,55,0.2);
   border-radius: 14px;
   padding: 22px 20px;
   cursor: pointer;
@@ -59,17 +56,17 @@ body {
   text-align: center;
 }
 .menu-card:hover, .menu-card:active {
-  background: rgba(230,57,70,0.12);
-  border-color: #E63946;
+  background: rgba(212,175,55,0.12);
+  border-color: #D4AF37;
   transform: scale(1.02);
 }
 .menu-card-title {
-  color: #E63946;
+  color: #D4AF37;
   font-size: 1.6em;
   margin-bottom: 4px;
 }
 .menu-card-desc {
-  color: #A8A29B;
+  color: #a0b8a0;
   font-size: 0.85em;
 }
 
@@ -80,8 +77,8 @@ body {
   min-height: 100vh;
 }
 .reader-header {
-  background: rgba(8,8,10,0.95);
-  border-bottom: 1px solid rgba(230,57,70,0.3);
+  background: rgba(13,40,24,0.95);
+  border-bottom: 1px solid rgba(212,175,55,0.3);
   padding: 14px 16px;
   display: flex;
   align-items: center;
@@ -93,17 +90,17 @@ body {
 }
 .back-btn {
   background: none;
-  border: 1px solid rgba(230,57,70,0.4);
-  color: #E63946;
+  border: 1px solid rgba(212,175,55,0.4);
+  color: #D4AF37;
   padding: 6px 14px;
   border-radius: 8px;
   font-size: 1em;
   cursor: pointer;
   font-family: inherit;
 }
-.back-btn:active { background: rgba(230,57,70,0.15); }
+.back-btn:active { background: rgba(212,175,55,0.15); }
 .reader-title {
-  color: #E63946;
+  color: #D4AF37;
   font-size: 1.3em;
   flex: 1;
   text-align: center;
@@ -115,8 +112,8 @@ body {
 }
 .font-btn {
   background: none;
-  border: 1px solid rgba(230,57,70,0.4);
-  color: #E63946;
+  border: 1px solid rgba(212,175,55,0.4);
+  color: #D4AF37;
   width: 32px;
   height: 32px;
   border-radius: 8px;
@@ -126,7 +123,7 @@ body {
   align-items: center;
   justify-content: center;
 }
-.font-btn:active { background: rgba(230,57,70,0.15); }
+.font-btn:active { background: rgba(212,175,55,0.15); }
 
 .reader-body {
   padding: 20px 18px 120px;
@@ -140,7 +137,7 @@ body {
   color: #f0f0f0;
 }
 .dua-text .section-title {
-  color: #E63946;
+  color: #D4AF37;
   font-size: 1.1em;
   text-align: center;
   display: block;
@@ -148,7 +145,7 @@ body {
   font-weight: bold;
 }
 .dua-text .repeat-note {
-  color: #A8A29B;
+  color: #a0b8a0;
   font-size: 0.7em;
   text-align: center;
   display: block;
@@ -156,7 +153,7 @@ body {
   font-style: italic;
 }
 .dua-text .instruction {
-  color: #E63946;
+  color: #D4AF37;
   font-size: 0.75em;
   text-align: center;
   display: block;
@@ -165,12 +162,12 @@ body {
 }
 .dua-text .farsi {
   display: none;
-  color: #F2949B;
+  color: #8cc8a0;
   font-size: 0.75em;
   line-height: 1.8;
   margin: 4px 0 16px;
   padding: 8px 12px;
-  border-right: 2px solid rgba(230,57,70,0.3);
+  border-right: 2px solid rgba(212,175,55,0.3);
   font-family: 'Vazirmatn', 'B Nazanin', 'Tahoma', sans-serif;
 }
 .show-farsi .farsi {
@@ -178,8 +175,8 @@ body {
 }
 .translate-btn {
   background: none;
-  border: 1px solid rgba(230,57,70,0.4);
-  color: #E63946;
+  border: 1px solid rgba(212,175,55,0.4);
+  color: #D4AF37;
   padding: 6px 10px;
   border-radius: 8px;
   font-size: 0.75em;
@@ -187,10 +184,10 @@ body {
   font-family: inherit;
   white-space: nowrap;
 }
-.translate-btn:active { background: rgba(230,57,70,0.15); }
+.translate-btn:active { background: rgba(212,175,55,0.15); }
 .translate-btn.active {
-  background: rgba(230,57,70,0.2);
-  border-color: #E63946;
+  background: rgba(212,175,55,0.2);
+  border-color: #D4AF37;
 }
 
 /* ===== AUDIO PLAYER ===== */
@@ -200,8 +197,8 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(8,8,10,0.97);
-  border-top: 1px solid rgba(230,57,70,0.3);
+  background: rgba(13,40,24,0.97);
+  border-top: 1px solid rgba(212,175,55,0.3);
   padding: 10px 16px;
   z-index: 20;
   backdrop-filter: blur(10px);
@@ -214,8 +211,8 @@ body {
 }
 .play-btn {
   background: none;
-  border: 2px solid #E63946;
-  color: #E63946;
+  border: 2px solid #D4AF37;
+  color: #D4AF37;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -226,11 +223,11 @@ body {
   justify-content: center;
   flex-shrink: 0;
 }
-.play-btn:active { background: rgba(230,57,70,0.2); }
+.play-btn:active { background: rgba(212,175,55,0.2); }
 .speed-btn {
   background: none;
-  border: 1px solid rgba(230,57,70,0.4);
-  color: #E63946;
+  border: 1px solid rgba(212,175,55,0.4);
+  color: #D4AF37;
   min-width: 42px;
   height: 30px;
   padding: 0 8px;
@@ -240,7 +237,7 @@ body {
   font-family: inherit;
   flex-shrink: 0;
 }
-.speed-btn:active { background: rgba(230,57,70,0.2); }
+.speed-btn:active { background: rgba(212,175,55,0.2); }
 .audio-progress-wrap {
   flex: 1;
   display: flex;
@@ -257,13 +254,13 @@ body {
 }
 .audio-progress-fill {
   height: 100%;
-  background: #E63946;
+  background: #D4AF37;
   border-radius: 2px;
   width: 0%;
   transition: width 0.2s;
 }
 .audio-time {
-  color: #A8A29B;
+  color: #a0b8a0;
   font-size: 0.7em;
   min-width: 38px;
   text-align: center;
@@ -277,7 +274,7 @@ body {
   top: 0;
   left: 0;
   height: 3px;
-  background: #E63946;
+  background: #D4AF37;
   z-index: 20;
   transition: width 0.1s;
   width: 0%;
